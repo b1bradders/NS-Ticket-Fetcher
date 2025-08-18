@@ -1,5 +1,3 @@
-// Does a fetch request to a given URL and returns the response as a string.
-// We use this so we can inject the ocp-apim-subscription-key
 import {API_ORDER_FETCH, API_SHARE_URL, SUB_KEY} from "./consts.ts";
 import {sprintf} from "./std/fmt/printf";
 import {OrderResponse, TicketAndPaymentResponse} from "./models.ts";
@@ -9,7 +7,7 @@ async function getFetch(url: string): Promise<Response> {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			'ocp-apim-subscription-key': SUB_KEY, // This is the subscription key used by the app
+			'ocp-apim-subscription-key': SUB_KEY, // this is the subscription key used by the app
 		},
 		redirect: 'manual'
 	});
