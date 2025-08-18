@@ -14,5 +14,6 @@ Downloads your tickets from NS (Dutch Railways), as PDFs... because that's liter
    deno run -A main.ts <code>
    ```
    > [!NOTE]
+   > 
    > I use `-A` just because it's easier than typing out `--allow-net`. If you have a problem with that, check the code or just type `--allow-net` in place of `-A`.
 5. The script will return a link of the PDF file(s) containing a ticket. You can open this link in your browser to view or download the PDF.
