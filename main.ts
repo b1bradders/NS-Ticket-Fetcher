@@ -1,7 +1,7 @@
 // Does a fetch request to a given URL and returns the response as a string.
 // We use this so we can inject the ocp-apim-subscription-key
 import {API_ORDER_FETCH, API_SHARE_URL, SUB_KEY} from "./consts.ts";
-import {sprintf} from "@std/fmt/printf";
+import {sprintf} from "./std/fmt/printf";
 import {OrderResponse, TicketAndPaymentResponse} from "./models.ts";
 
 async function getFetch(url: string): Promise<Response> {
@@ -17,6 +17,10 @@ async function getFetch(url: string): Promise<Response> {
 
 if (import.meta.main) {
 	const shareCode: string = (Deno.args)[0];
+	if(!shareCode || shareCode.length < 8) {
+		console.error("Share code not provided, or invalid.")
+		Deno.exit(2);
+	}
 
 	const shareCodeResponse = await getFetch(sprintf(API_SHARE_URL, shareCode));
 	if (!shareCodeResponse.ok && shareCodeResponse.status !== 302) {
