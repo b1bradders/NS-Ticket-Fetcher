@@ -1,5 +1,5 @@
 import {API_ORDER_FETCH, API_SHARE_URL, SUB_KEY} from "./consts.ts";
-import {sprintf} from "./std/fmt/printf";
+import {sprintf} from "@std/fmt/printf";
 import {OrderResponse, TicketAndPaymentResponse} from "./models.ts";
 
 async function getFetch(url: string): Promise<Response> {

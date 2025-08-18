@@ -3,6 +3,6 @@
     "dev": "deno run --watch main.ts"
   },
   "imports": {
-    "./std/fmt": "jsr:@std/fmt@^1.0.8"
+    "@std/fmt": "jsr:@std/fmt@^1.0.8"
   }
 }
