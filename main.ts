@@ -14,7 +14,7 @@ async function getFetch(url: string): Promise<Response> {
 }
 
 if (import.meta.main) {
-	const shareCode: string = (Deno.args)[0];
+	const shareCode: string = Deno.args[0];
 	if(!shareCode || shareCode.length < 8) {
 		console.error("Share code not provided, or invalid.")
 		Deno.exit(2);
@@ -36,11 +36,17 @@ if (import.meta.main) {
 	// now we have the redirect URL, we can fetch the order details by getting the order ID and order detail ID from the redirect URL
 	const urlParts = new URL(redirectUrl);
 	const orderId = urlParts.searchParams.get('orderId');
-	const orderDetailId = urlParts.searchParams.get('orderDetailId');
+	const orderDetailId = urlParts.searchParams.get('orderDetailId') ?? urlParts.searchParams.get("travelerId")?.split(".")[0];
 
-	if (!orderId || !orderDetailId) {
-		console.error('Order ID or Order Detail ID not found in redirect URL.');
+	if (!orderId) {
+	  console.error('Order ID could not be discovered.');
+		console.error('This might be because the share code is invalid / expired.');
 		Deno.exit(1);
+	}
+	if (!orderDetailId) {
+	  console.error("Order Detail ID / Traveler ID could not be discovered.")
+		console.error('This might be because the share code is invalid / expired.');
+	  Deno.exit(1);
 	}
 
 	const orderResponse = await getFetch(sprintf(API_ORDER_FETCH, orderId, orderDetailId));
@@ -57,10 +63,7 @@ if (import.meta.main) {
 		Deno.exit(1);
 	}
 
-
 	for (const ticket of orderData.tickets) {
-		console.log(`Ticket for ${ticket.initials} ${ticket.lastName}: ${ticket.secutixMobilePDFLink}`);
+		console.log(`[ ${ticket.initials} ${ticket.lastName}'s ticket ]\n${ticket.secutixMobilePDFLink}`);
 	}
-
-	console.log(`Payment status: ${orderData.payment.status}`);
 }
